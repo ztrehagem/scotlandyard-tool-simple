@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+  <meta charset="utf-8">
+  <title>aaa</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" charset="utf-8"></script>
+  <script src="js/app.js" charset="utf-8"></script>
+  <style media="screen">
+    #kaitou, #keiji, ul {
+      display: block;
+      float: left;
+    }
+    #keiji:after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+    #keiji {
+      width: 30%;
+    }
+    #kaitou {
+      white-space: nowrap;
+      width: 60%;
+    }
+    li.taxi {
+      background-color: yellow;
+    }
+    li.bus {
+      background-color: green;
+      color: white;
+    }
+    li.train {
+      background-color: red;
+    }
+    li.black {
+      background-color: black;
+      color: white;
+    }
+    li {
+      padding: 0.5rem;
+    }
+    strong.open:after {
+      content: "＊";
+    }
+    ul {
+      list-style: none;
+    }
+    strong {
+      padding: 0.5rem;
+    }
+    .ulbox {
+      display: block;
+      width: 100%;
+    }
+    .ulbox:after {
+      display: block;
+      content: "";
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+  けいじ
+  <table border="1" id="keiji">
+    <thead>
+      <tr>
+        <th>いろ</th>
+        <th>タクシー</th>
+        <th>バス</th>
+        <th>でんしゃ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="color in ['赤', '青', '黄', '緑', '黒']" ng-controller="keiji as ctrl">
+        <td>{{color}}</td>
+        <td><button ng-click="ctrl.minus('taxi')">-</button>{{ctrl.taxi}}<button ng-click="ctrl.plus('taxi')">+</button></td>
+        <td><button ng-click="ctrl.minus('bus')">-</button>{{ctrl.bus}}<button ng-click="ctrl.plus('bus')">+</button></td>
+        <td><button ng-click="ctrl.minus('train')">-</button>{{ctrl.train}}<button ng-click="ctrl.plus('train')">+</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  かいとう
+  <div ng-controller="kaitou as ctrl" id="kaitou">
+    <table border="1">
+      <thead>
+        <tr>
+          <th>タクシー</th>
+          <th>バス</th>
+          <th>でんしゃ</th>
+          <th>ブラック</th>
+          <th>ダブル</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ctrl.taxi}}　<button ng-click="ctrl.consume('taxi')">つかう</button></td>
+          <td>{{ctrl.bus}}　<button ng-click="ctrl.consume('bus')">つかう</button></td>
+          <td>{{ctrl.train}}　<button ng-click="ctrl.consume('train')">つかう</button></td>
+          <td>{{ctrl.black}}　<button ng-click="ctrl.consume('black')">つかう</button></td>
+          <td>{{ctrl.double}}　<button ng-click="ctrl.usedouble()">つかう</button><button ng-click="ctrl.undouble()">もどす</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div>
+      ダブル回数: {{2 - ctrl.double}}
+    </div>
+
+    <button ng-click="ctrl.unconsume()">もどす</button>
+
+    <div class="ulbox">
+      <ul>
+        <li ng-repeat="name in ctrl.consumes.slice(0, 8) track by $index" ng-class="name" ng-init="i = $index + 1"><strong ng-class="{open: ctrl.isOpen(i)}">　{{i}}　</strong> {{name}}</li>
+      </ul>
+      <ul>
+        <li ng-repeat="name in ctrl.consumes.slice(8, 16) track by $index" ng-class="name" ng-init="i = $index + 9"><strong ng-class="{open: ctrl.isOpen(i)}">　{{i}}　</strong> {{name}}</li>
+      </ul>
+      <ul>
+        <li ng-repeat="name in ctrl.consumes.slice(16, 24) track by $index" ng-class="name" ng-init="i = $index + 17"><strong ng-class="{open: ctrl.isOpen(i)}">　{{i}}　</strong> {{name}}</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>
